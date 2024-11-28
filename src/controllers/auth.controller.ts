@@ -82,7 +82,7 @@ export const login = async (req: Request, res: Response): Promise<any> => {
     const refreshToken = generateRefreshToken({ id: user.id });
 
     // Store the refresh token in Redis with the user id as the key
-    await client.set(user.id.toString(), refreshToken);
+    await client.set(`session:${user.id.toString()}`, refreshToken);
 
     // Send the tokens back in the response
     res.status(200).json({
@@ -103,7 +103,7 @@ export const logout = async (req: Request, res: Response): Promise<any> => {
     }
 
     // Remove the refresh token from Redis
-    await client.del(user.id.toString());
+    await client.del(`session:${user.id.toString()}`);
 
     res.status(200).json({ message: 'Logged out successfully' });
 };
