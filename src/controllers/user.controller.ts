@@ -6,7 +6,7 @@ export const getUsers = async (req: Request, res: Response): Promise<void> => {
     try {
         // Get the current date and subtract 2 months
         const twoMonthsAgo = new Date();
-        twoMonthsAgo.setMonth(twoMonthsAgo.getMonth() - 2); // Subtract 2 months from the current date
+        twoMonthsAgo.setMonth(twoMonthsAgo.getMonth() - 3); // Subtract 2 months from the current date
 
         // Fetch users who have registered in the last 2 days
         const users = await User.findAll({

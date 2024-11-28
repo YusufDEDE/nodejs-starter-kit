@@ -52,8 +52,8 @@ npm install
 ```bash
 docker run -d \
   --name postgres-container \
-  -e POSTGRES_USER=postgres \
-  -e POSTGRES_PASSWORD=password \
+  -e POSTGRES_USER=docker_user \
+  -e POSTGRES_PASSWORD=docker_user \
   -e POSTGRES_DB=authdb \
   -p 5432:5432 \
   postgres:latest
@@ -76,9 +76,14 @@ docker run -d \
   -p 6379:6379 \
   redis:latest
 ```
-npx ts-node src/server.ts
 
-### 4. Access the Application
+### 4. Run userSeed and run app
+```bash
+  npm run userSeed
+  npx run dev
+```
+
+### 5. Access the Application
 
 - The application will be accessible at http://localhost:3000/api/docs swagger.
 - Test the /dashboard endpoint by sending a request with a valid JWT token in the Authorization header.
