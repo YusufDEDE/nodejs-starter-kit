@@ -10,6 +10,15 @@ const swaggerOptions: swaggerJSDoc.Options = {
             description: 'A simple CRUD API with Node.js, PostgreSQL, and TypeScript',
             version: '1.0.0',
         },
+        components: {
+            securitySchemes: {
+                Bearer: {
+                    type: 'http',
+                    scheme: 'bearer',
+                    bearerFormat: 'JWT',
+                },
+            },
+        },
         servers: [
             {
                 url: 'http://localhost:3000',  // Your API base URL
