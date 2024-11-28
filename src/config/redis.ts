@@ -1,21 +1,26 @@
-import {createClient} from 'redis';
+// src/config/redis.ts
+import Redis from 'ioredis';
 
-const { REDIS_HOST, REDIS_PORT } = process.env;
+let redisClient: Redis | null = null;
 
-const client = createClient({
-    url: `redis://${REDIS_HOST}:${REDIS_PORT}`, // Update with your Redis URL if needed
-});
+const getRedisClient = (): Redis => {
+    if (!redisClient) {
+        redisClient = new Redis({
+            host: process.env.REDIS_HOST || '127.0.0.1',
+            port: parseInt(process.env.REDIS_PORT || '6379', 10),
+            password: process.env.REDIS_PASSWORD || undefined, // Optional, only if authentication is required
+        });
 
-client.on('connect', () => {
-    console.log('Connect to Redis...');
-});
+        redisClient.on('connect', () => {
+            console.log('Redis client connected');
+        });
 
-client.on('error', (err) => {
-    console.error('Redis error:', err);
-});
+        redisClient.on('error', (err) => {
+            console.error('Redis error:', err);
+        });
+    }
 
-client.connect().then(() => {
-    console.log('Connected to Redis!')
-});
+    return redisClient;
+};
 
-export default client;
+export default getRedisClient;

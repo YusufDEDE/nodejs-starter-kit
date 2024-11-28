@@ -1,5 +1,5 @@
 import {Router} from 'express';
-import {login, logout, register} from '../controllers/auth.controller';
+import {login, logout, refresh, register} from '../controllers/auth.controller';
 import {verifyToken} from "../middleware/auth.middleware";
 
 const router = Router();
@@ -69,6 +69,36 @@ router.post('/login', login);
  *         description: Internal server error
  */
 router.post('/register', register);
+
+/**
+ * @swagger
+ * /api/auth/refresh:
+ *   post:
+ *     summary: Log out the user by removing the refresh token from Redis.
+ *     description: Logs out the user and deletes the refresh token stored in Redis.
+ *     tags: [Auth]
+ *     security:
+ *       - Bearer: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               refreshToken:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Successfully logged out
+ *       400:
+ *         description: No user to log out
+ *       401:
+ *         description: Unauthorized - Invalid or missing token
+ *       500:
+ *         description: Internal server error
+ */
+router.post('/refresh', verifyToken, refresh);
 
 /**
  * @swagger
