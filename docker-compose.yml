@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+#    environment:
+#      - NODE_ENV=production
+#      - DB_HOST=postgres
+#      - DB_PORT=5432
+#      - DB_USER=your_user
+#      - DB_PASSWORD=your_password
+#      - DB_NAME=your_db
+#      - REDIS_HOST=redis
+#      - REDIS_PORT=6379
+    depends_on:
+      - postgres
+      - redis
+    ports:
+      - "3000:3000"
+    networks:
+      - app-network
+
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: docker_user
+      POSTGRES_PASSWORD: docker_user
+      POSTGRES_DB: nodejs-starter-kit
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+  redis:
+    image: redis:latest
+    networks:
+      - app-network
+
+volumes:
+  postgres-data:
+
+networks:
+  app-network:
+    driver: bridge
