@@ -3,7 +3,19 @@ import bcrypt from 'bcrypt';
 import { User } from '../models/user.model';
 import { generateAccessToken, generateRefreshToken } from '../utils/jwt.utils'; // Assuming you have JWT utilities
 
-// Register a new user
+
+/**
+ * @swagger
+ * /api/auth/login:
+ *   post:
+ *     summary: Logs in the user
+ *     description: Authenticates a user and generates JWT tokens.
+ *     responses:
+ *       200:
+ *         description: Access and refresh tokens issued
+ *       400:
+ *         description: Invalid login credentials
+ */
 export const register = async (req: Request, res: Response): Promise<void> => {
     try {
         const { email, password } = req.body;
@@ -35,7 +47,18 @@ export const register = async (req: Request, res: Response): Promise<void> => {
     }
 };
 
-// Login a user
+/**
+ * @swagger
+ * /api/auth/register:
+ *   post:
+ *     summary: Registers a new user
+ *     description: Creates a new user in the database and sends back the response.
+ *     responses:
+ *       201:
+ *         description: User successfully registered
+ *       400:
+ *         description: Validation errors
+ */
 export const login = async (req: Request, res: Response): Promise<void> => {
     try {
         const { email, password } = req.body;
